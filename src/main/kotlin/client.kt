@@ -9,9 +9,9 @@ import styled.*
 
 
 val AppClient = functionalComponent<RProps> { props ->
-    var (watchedVideos, setWatchedVideos) = useState<List<Video>>(listOf())
-    var (unwatchedVideos, setUnwatchedVideos) = useState<List<Video>>(listOf())
-    var (currentVideo, setCurrentVideo) = useState<Video?>(null)
+    val (watchedVideos, setWatchedVideos) = useState<List<Video>>(listOf())
+    val (unwatchedVideos, setUnwatchedVideos) = useState<List<Video>>(listOf())
+    val (currentVideo, setCurrentVideo) = useState<Video?>(null)
 
     useEffect (emptyList()) {
         val mainScope = MainScope()
@@ -34,7 +34,7 @@ val AppClient = functionalComponent<RProps> { props ->
             +"Videos to watch"
         }
         child(VideoList::class) {
-            attrs.videos = watchedVideos
+            attrs.videos = unwatchedVideos
             attrs.selectedVideo = currentVideo
             attrs.onSelectVideo = {
                 video -> setCurrentVideo(video)
@@ -46,7 +46,7 @@ val AppClient = functionalComponent<RProps> { props ->
         }
 
         child(VideoList::class) {
-            attrs.videos = unwatchedVideos
+            attrs.videos = watchedVideos
             attrs.selectedVideo = currentVideo
             attrs.onSelectVideo = {
                     video -> setCurrentVideo(video)
@@ -56,7 +56,7 @@ val AppClient = functionalComponent<RProps> { props ->
     }
 
     currentVideo?.let {
-        currentVideo -> videoPlayer {
+         videoPlayer {
             video = currentVideo
             unwatchedVideo = currentVideo in unwatchedVideos
             onWatchedButtonPressed = {
